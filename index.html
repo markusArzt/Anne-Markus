@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anne & Markus · Wir feiern</title>
+<meta name="description" content="Wir haben geheiratet – jetzt wird gefeiert! Bouldern, Stadtwanderweg 5 am Bisamberg und ein Essen im Magdalenenhof. Meldet euch an." />
+
+<!-- =========================================================
+     EINSTELLUNGEN — hier eintragen und fertig
+     1) Namen unten im HTML ersetzen (Suche nach "Anne" / "Markus")
+     2) SCRIPT_URL unten im <script> einsetzen (siehe apps-script.gs)
+     3) Datum ergänzen, sobald bekannt (Suche nach "Datum folgt")
+     4) Eure Fotos: im Repo einen Ordner "fotos" anlegen und dort
+        genau diese drei Dateien ablegen (Namen exakt so):
+          ./fotos/paar-1.jpg
+          ./fotos/paar-2.jpg
+          ./fotos/paar-3.jpg
+        Quer-/Hochformat egal — wird per CSS auf 4:5 zugeschnitten.
+     ========================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#FBF9F4;
+    --paper-2:#F1ECE1;
+    --ink:#37392F;
+    --ink-soft:#6A6C5F;
+    --sage:#7E9068;
+    --sage-deep:#566A46;
+    --blush:#E3B4A0;
+    --blush-deep:#C88A72;
+    --line:#DFD8C8;
+    --shadow:0 18px 50px -30px rgba(60,66,45,.45);
+    --maxw:1080px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Nunito Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+    font-weight:400;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:500;line-height:1.08;margin:0;}
+  p{margin:0 0 1rem;}
+  a{color:var(--sage-deep);}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem);}
+
+  .eyebrow{
+    font-family:"Nunito Sans",sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.32em;
+    font-size:.72rem;
+    font-weight:700;
+    color:var(--sage-deep);
+  }
+
+  /* ---------- Höhenlinien (Signatur-Motiv) ---------- */
+  .contours{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .contours path{fill:none;stroke:var(--sage);stroke-width:1;opacity:.16;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:6rem 1.25rem 4rem;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 50% 0%, #FEFDFA 0%, var(--paper) 55%, var(--paper-2) 100%);
+  }
+  .hero .badge{
+    display:inline-flex;align-items:center;gap:.55rem;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.55);
+    padding:.5rem 1.05rem;border-radius:100px;
+    font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;font-weight:700;
+    color:var(--ink-soft);
+    backdrop-filter:blur(4px);
+    z-index:2;
+  }
+  .hero .badge b{color:var(--sage-deep);font-weight:700;letter-spacing:.28em;}
+  .hero h1{
+    font-size:clamp(3.2rem,13vw,8.5rem);
+    margin:1.6rem 0 .4rem;
+    letter-spacing:-.01em;
+    z-index:2;
+  }
+  .hero h1 .amp{font-style:italic;color:var(--blush-deep);font-weight:400;display:inline-block;padding:0 .12em;}
+  .hero .subtitle{
+    font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.15rem,3.6vw,1.7rem);
+    color:var(--ink-soft);z-index:2;margin:.2rem 0 2rem;
+  }
+  .hero .scroll-cue{
+    z-index:2;margin-top:1.2rem;font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-soft);display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  }
+  .scroll-cue .dot{width:1px;height:34px;background:linear-gradient(var(--sage),transparent);}
+
+  /* ---------- Intro ---------- */
+  .intro{padding:clamp(4rem,9vw,7rem) 0 2rem;text-align:center;}
+  .intro h2{font-size:clamp(1.8rem,4.5vw,2.7rem);margin-bottom:1rem;}
+  .intro p{max-width:44ch;margin:0 auto 1rem;color:var(--ink-soft);font-size:1.05rem;}
+
+  /* ---------- Route / Tagesablauf ---------- */
+  .route{position:relative;padding:clamp(3rem,7vw,5rem) 0 clamp(4rem,9vw,7rem);}
+  .route-head{text-align:center;margin-bottom:3.5rem;}
+  .route-head h2{font-size:clamp(2rem,5vw,3rem);}
+
+  .timeline{position:relative;max-width:760px;margin:0 auto;}
+  /* durchgehende Weg-Linie */
+  .timeline::before{
+    content:"";position:absolute;left:50%;top:8px;bottom:80px;width:2px;
+    transform:translateX(-50%);
+    background:repeating-linear-gradient(var(--sage) 0 8px, transparent 8px 16px);
+    opacity:.55;
+  }
+  .stop{position:relative;display:grid;grid-template-columns:1fr 44px 1fr;align-items:start;margin-bottom:2.6rem;}
+  .stop .marker{
+    grid-column:2;justify-self:center;position:relative;z-index:2;
+    width:44px;height:44px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--sage);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 6px var(--paper);
+  }
+  .stop .marker svg{width:22px;height:22px;stroke:var(--sage-deep);fill:none;stroke-width:1.6;}
+  .stop .card{
+    grid-column:1 / 2;text-align:right;padding:0 1.6rem;
+    background:transparent;
+  }
+  .stop:nth-child(even) .card{grid-column:3 / 4;text-align:left;}
+  .stop .time{font-family:"Fraunces",serif;font-size:1.5rem;color:var(--blush-deep);display:block;margin-bottom:.15rem;}
+  .stop h3{font-size:1.4rem;margin-bottom:.35rem;}
+  .stop .place{font-weight:700;color:var(--sage-deep);font-size:.95rem;}
+  .stop p{color:var(--ink-soft);font-size:.98rem;margin:.35rem 0 .5rem;}
+  .stop a.maplink{
+    font-size:.82rem;font-weight:700;letter-spacing:.03em;text-decoration:none;
+    border-bottom:1.5px solid var(--blush);padding-bottom:1px;
+  }
+  .stop a.maplink:hover{border-color:var(--sage);}
+
+  /* Paar-Fotos */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3.5rem;}
+  .photo-frame{
+    width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:0 16px 34px -22px rgba(60,66,45,.5);
+    background:repeating-linear-gradient(135deg,#EFE9DC 0 14px,#F4EFE4 14px 28px);
+  }
+  .gallery .photo-frame:nth-child(2){transform:translateY(1.4rem);}
+  @media(max-width:720px){
+    .gallery{grid-template-columns:1fr 1fr;gap:.9rem;}
+    .gallery .photo-frame:nth-child(2){transform:none;}
+    .gallery .photo-frame:nth-child(3){grid-column:1 / -1;max-width:60%;justify-self:center;}
+  }
+  @media(max-width:480px){
+    .gallery{grid-template-columns:1fr;gap:1rem;}
+    .gallery .photo-frame:nth-child(3){max-width:100%;}
+  }
+
+
+  /* ---------- Geschenke-Hinweis ---------- */
+  .gift-note{
+    max-width:560px;margin:0 auto;padding:clamp(3rem,6vw,4.5rem) 1.25rem clamp(1rem,3vw,2rem);
+    text-align:center;
+  }
+  .gift-note .icon{font-size:2rem;margin-bottom:.6rem;display:block;}
+  .gift-note h3{font-size:clamp(1.4rem,3.5vw,1.8rem);margin-bottom:.5rem;}
+  .gift-note p{color:var(--ink-soft);font-size:1.02rem;max-width:42ch;margin:0 auto;}
+
+  /* ---------- RSVP ---------- */
+  .rsvp{position:relative;padding:clamp(4rem,9vw,7rem) 0;overflow:hidden;
+        background:linear-gradient(180deg,var(--paper) 0%,var(--paper-2) 100%);}
+  .rsvp-head{text-align:center;margin-bottom:2.5rem;position:relative;z-index:2;}
+  .rsvp-head h2{font-size:clamp(2rem,5vw,3rem);margin-bottom:.6rem;}
+  .rsvp-head p{color:var(--ink-soft);max-width:46ch;margin:0 auto;}
+
+  form{
+    position:relative;z-index:2;max-width:600px;margin:0 auto;
+    background:#fff;border:1px solid var(--line);border-radius:24px;
+    padding:clamp(1.5rem,4vw,2.6rem);box-shadow:var(--shadow);
+  }
+  .field{margin-bottom:1.5rem;}
+  .field > label.q{display:block;font-weight:700;margin-bottom:.55rem;font-size:.98rem;}
+  .field .hint{font-size:.82rem;color:var(--ink-soft);font-weight:400;}
+  input[type=text],input[type=email],textarea,select{
+    width:100%;padding:.8rem .9rem;border:1px solid var(--line);border-radius:12px;
+    background:var(--paper);font:inherit;color:var(--ink);
+  }
+  input:focus,textarea:focus,select:focus{
+    outline:none;border-color:var(--sage);box-shadow:0 0 0 3px rgba(126,144,104,.22);
+  }
+  textarea{min-height:90px;resize:vertical;}
+
+  .choices{display:grid;gap:.7rem;}
+  .choice{
+    display:flex;align-items:flex-start;gap:.75rem;
+    border:1px solid var(--line);border-radius:14px;padding:.85rem 1rem;cursor:pointer;
+    transition:border-color .15s,background .15s;
+  }
+  .choice:hover{border-color:var(--sage);}
+  .choice input{margin-top:.25rem;accent-color:var(--sage);width:18px;height:18px;flex:none;}
+  .choice .lbl{font-weight:700;}
+  .choice .lbl small{display:block;font-weight:400;color:var(--ink-soft);font-size:.85rem;margin-top:.1rem;}
+  .choice:has(input:checked){border-color:var(--sage);background:rgba(126,144,104,.08);}
+
+  .choice .info-box{
+    display:block;margin-top:.45rem;padding:.55rem .75rem;
+    background:var(--paper-2);border-radius:8px;
+    font-size:.84rem;font-weight:400;color:var(--ink-soft);line-height:1.5;
+  }
+  
+  .choice .info-box.warn{
+  background:#FDF0EB;color:#8B4513;border-left:3px solid var(--blush-deep);
+}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  @media(max-width:520px){.grid2{grid-template-columns:1fr;}}
+
+  .btn{
+    width:100%;border:none;border-radius:100px;cursor:pointer;
+    background:var(--sage-deep);color:#fff;font-family:"Nunito Sans",sans-serif;
+    font-weight:700;font-size:1.02rem;letter-spacing:.02em;padding:1rem;
+    transition:transform .12s,background .2s;
+  }
+  .btn:hover{background:#485a3a;}
+  .btn:active{transform:translateY(1px);}
+  .btn:disabled{opacity:.6;cursor:default;}
+
+  .form-note{text-align:center;font-size:.82rem;color:var(--ink-soft);margin-top:1rem;}
+
+  .status{display:none;text-align:center;padding:2.5rem 1rem;}
+  .status.show{display:block;}
+  .status svg{width:56px;height:56px;stroke:var(--sage-deep);fill:none;stroke-width:1.6;margin-bottom:1rem;}
+  .status h3{font-size:1.7rem;margin-bottom:.5rem;}
+  .status p{color:var(--ink-soft);}
+
+  /* ---------- Footer ---------- */
+  footer{text-align:center;padding:3.5rem 1.25rem 4rem;color:var(--ink-soft);}
+  footer .amp{font-family:"Fraunces",serif;font-style:italic;font-size:2rem;color:var(--blush-deep);display:block;margin-bottom:.4rem;}
+  footer .small{font-size:.8rem;letter-spacing:.05em;}
+
+  /* ---------- Reveal-Animation ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1;transform:none;transition:none;}
+  }
+
+  @media(max-width:600px){
+    .timeline::before{left:22px;}
+    .stop{grid-template-columns:44px 1fr;gap:.5rem;}
+    .stop .marker{grid-column:1;}
+    .stop .card,.stop:nth-child(even) .card{grid-column:2;text-align:left;padding:0 0 0 .4rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== HERO ============== -->
+<header class="hero">
+  <svg class="contours" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M-50,650 C200,560 400,700 650,600 C850,520 1050,640 1260,560"/>
+    <path d="M-50,700 C200,610 400,750 650,650 C850,570 1050,690 1260,610"/>
+    <path d="M-50,600 C220,500 420,660 660,540 C860,450 1060,590 1260,500"/>
+    <path d="M-50,540 C240,430 440,600 680,470 C880,380 1080,520 1260,430"/>
+    <path d="M-50,180 C220,120 420,240 660,150 C860,80 1060,200 1260,120"/>
+    <path d="M-50,120 C220,60 420,180 660,90 C860,20 1060,140 1260,60"/>
+  </svg>
+
+  <span class="badge">Wir feiern · <b>22. Mai 2027</b></span>
+  <h1>Anne <span style="color:var(--blush-deep)">&</span> Markus</h1>
+  <p class="subtitle">Heiraten werden wir in kleiner Runde, aber feiern wollen wir in großer Runde mit euch.</p>
+
+  <div class="scroll-cue">
+    <span>Der Tag</span>
+    <span class="dot"></span>
+  </div>
+</header>
+
+<!-- ============== INTRO ============== -->
+<section class="intro">
+  <div class="wrap reveal">
+    <p class="eyebrow">Unsere Feier · Wien</p>
+    <h2>Die Trauung ist zu zweit —<br>gefeiert wird mit euch.</h2>
+    <p>Das Ja-Wort geben wir uns vorab im kleinsten Kreis — nur wir beide. Umso mehr freuen wir uns, diesen Tag mit euch zu feiern: sportlich starten, gemeinsam über den Bisamberg, den Nachmittag beim Heurigen ausklingen lassen. Ihr entscheidet selbst, bei welchen Teilen ihr dabei seid.</p>
+  </div>
+</section>
+
+<!-- ============== ROUTE / TAGESABLAUF ============== -->
+<section class="route" id="ablauf">
+  <div class="wrap">
+    <div class="route-head reveal">
+      <p class="eyebrow">Die Route des Tages</p>
+      <h2>So läuft der Samstag</h2>
+    </div>
+
+    <div class="timeline">
+
+      <!-- Stop 1 -->
+      <div class="stop reveal">
+        <div class="card">
+          <span class="time">Ab 09:00</span>
+          <h3>Bouldern</h3>
+          <span class="place">Boulderbar Seestadt, Wien</span>
+          <p>Zum Aufwärmen an die Wand. Keine Erfahrung nötig — Kletterschuhe gibt's vor Ort, Spaß ist Pflicht.</p>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Boulderbar+Seestadt+Wien" target="_blank" rel="noopener">Karte ansehen →</a>
+        </div>
+        <div class="marker" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="6" r="2.4"/><path d="M9 8.5 L7 14 L11 18 M9 12 L14 11 L18 14 M7 14 L5 20"/></svg>
+        </div>
+      </div>
+
+      <!-- Stop 2 -->
+      <div class="stop reveal">
+        <div class="card">
+          <span class="time">14:00</span>
+          <h3>Stadtwanderweg 5</h3>
+          <span class="place">Bisamberg</span>
+          <p>Gemeinsame Wanderung über die Weinhänge des Bisambergs — gemütliches Tempo, gute Aussicht und gute Gespräche am Weg. Alternativ direkt mit dem Auto zur nächsten Station.</p>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Stadtwanderweg+5+Bisamberg+Wien" target="_blank" rel="noopener">Karte ansehen →</a>
+        </div>
+        <div class="marker" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 20 L10 8 L14 14 L20 4 M20 4 L20 9 M20 4 L15 4"/></svg>
+        </div>
+      </div>
+
+      <!-- Stop 3 -->
+      <div class="stop reveal">
+        <div class="card">
+          <span class="time">ca. 15:30</span>
+          <h3>Essen im Ausblick.Wien</h3>
+          <span class="place">Heuriger am Bisamberg</span>
+          <p>Zur Belohnung gutes Essen und ein Glas Wein beim Heurigen. Nach der Stärkung geht es am Abend wieder bergab zurück nach Stammersdorf.</p>
+          <a class="maplink" href="https://www.google.com/maps/place/Ausblick.Wien-Weingut+H%C3%B6fler/@48.3094556,16.3964198,17z/data=!3m1!4b1!4m6!3m5!1s0x476d057633909c1b:0x89cb0c77f8937ffa!8m2!3d48.3094556!4d16.3989947!16s%2Fg%2F11dyzcgt26?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Karte ansehen →</a>
+        </div>
+        <div class="marker" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 3 C8 8 8 9 10 11 L10 21 M8 3 L8 8 M10 3 L10 8 M12 3 L12 8 M12 8 C12 9 11 10 10 11 M16 4 C14 5 14 10 16 11 L16 21"/></svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Eure Fotos: im Repo-Ordner "fotos" ablegen, Namen s.u. -->
+    <div class="gallery reveal">
+      <img class="photo-frame" src="./fotos/anne.jpg" alt="Anne & Markus">
+      <img class="photo-frame" src="./fotos/both.jpg" alt="Anne & Markus">
+      <img class="photo-frame" src="./fotos/markus.jpg" alt="Anne & Markus">
+    </div>
+  </div>
+</section>
+
+<!-- ============== DRESSCODE ============== -->
+<div class="gift-note reveal">
+  <span class="icon" aria-hidden="true">
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 2 L2 6 L5 8 L5 21 C5 21.5 5.5 22 6 22 L18 22 C18.5 22 19 21.5 19 21 L19 8 L22 6 L16 2 M8 2 C8 2 9 5 12 5 C15 5 16 2 16 2"/>
+  </svg>
+</span>
+  <h3>Dresscode</h3>
+  <p>Zieht an worin ihr euch wohlfühlt. Wir werden selbst gemütliche Kleidung tragen - zum Bouldern Sportsachen (Socken sind Pflicht in Leihschuhen) und zum Wandern - Markus sehr leger bis Anne leicht schick.</p>
+</div>
+
+<!-- ============== GESCHENKE ============== -->
+<div class="gift-note reveal">
+  <span class="icon" aria-hidden="true">✉</span>
+  <h3>Zum Thema Geschenke</h3>
+  <p>Das schönste Geschenk ist, dass ihr dabei seid. Wirklich. Unsere Wohnung ist klein, unser Rucksack am Wandertag auch — wer uns trotzdem etwas mitgeben möchte, kann es mit einem kleinen Kuvert tun.</p>
+</div>
+
+<!-- ============== RSVP ============== -->
+<section class="rsvp" id="anmeldung">
+  <svg class="contours" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M-50,300 C220,220 420,360 660,260 C860,180 1060,320 1260,230"/>
+    <path d="M-50,360 C220,280 420,420 660,320 C860,240 1060,380 1260,290"/>
+    <path d="M-50,240 C220,160 420,300 660,200 C860,120 1060,260 1260,170"/>
+  </svg>
+
+  <div class="wrap">
+    <div class="rsvp-head reveal">
+      <p class="eyebrow">Anmeldung</p>
+      <h2>Seid ihr dabei?</h2>
+      <p>Sagt uns, bei welchen Teilen ihr mitmacht, wie viele ihr seid und auf was wir achten sollen.</p>
+    </div>
+
+    <form id="rsvp-form" class="reveal">
+      <div class="field">
+        <label class="q" for="name">Euer Name <span class="hint">(Vor- und Nachname)</span></label>
+        <input type="text" id="name" name="name" autocomplete="name" required />
+      </div>
+
+      <div class="field">
+        <label class="q" for="email">E-Mail <span class="hint">(optional, für Rückfragen)</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" />
+      </div>
+
+      <div class="field">
+        <span class="q">Wobei seid ihr dabei? Alle können kommen und gehen wann sie wollen!</span>
+        <div class="choices">
+          <label class="choice">
+            <input type="checkbox" id="bouldern" name="bouldern" />
+            <div class="lbl">Bouldern · Ab 09:00<small>Boulderbar Seestadt</small>
+              <span class="info-box">Wer Klettern möchte und keine Dauerkarte hat kann sich einfach auf unsere Gruppenbuchung "Anne&Markus" schreiben lassen. Im Nachgang gibt es eine kleine Stärkung vom Ströck und Getränke an der Boulderbar-Bar.</span>
+              <span class="info-box warn">WICHTIG: Eine Boulderhalle ist kein Spielplatz, bitte achtet auf eure Kinder und die Hallenregeln!</span>
+            </div>
+          </label>
+          <label class="choice">
+            <input type="checkbox" id="wanderung" name="wanderung" />
+            <div class="lbl">Wanderung · 14:00<small>Stadtwanderweg 5, Bisamberg</small>
+              <span class="info-box">Die Wanderung führt uns Rückwärts entlang des Stadtwanderwegs 5, wobei wir etwas nach der Hälfte eine Abkürzung zum Heurigen einschlagen. Der Untergrund ist zu Beginn Asphalt und wechselt danach zwischen Pflaststein und Schotterweg.</span>
+            </div>
+          </label>
+          <label class="choice">
+            <input type="checkbox" id="essen" name="essen" />
+            <div class="lbl">Essen beim Heurigen · zw. 15:00 und 15:30<small>Ausblick.Wien, Bisamberg</small>
+              <span class="info-box">Es gibt kein Programm, aber kaltes und warmes Buffet sowie Getränke. Als Nachspeise gibt es diverse Mehlspeisen von den Bäurinnen aus Schlierbach und natürlich Kaffee. Vmtl. gegen Sonnenuntergang werden wir den Weg zurück nach Stammersdorf antreten und euch verabschieden.</span>
+              <span class="info-box warn">BEI SCHLECHTWETTER: Sollten die Wettergötter uns nicht wohl gesonnen sein, weichen wir auf XXX aus.</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label class="q" for="begleitung">Begleitung</label>
+          <select id="begleitung" name="begleitung">
+            <option value="solo">Ich komme solo</option>
+            <option value="partner">Mit Partner/in</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="q" for="kinder">Kinder <span class="hint">(Anzahl)</span></label>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" id="kinder" name="kinder" value="0" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="q" for="nachricht">Nachricht <span class="hint">(optional — z. B. Vegetarisch, Vegan, Unverträglichkeiten, etc.)</span></label>
+        <textarea id="nachricht" name="nachricht"></textarea>
+      </div>
+
+      <button type="submit" class="btn" id="submit-btn">Anmeldung absenden</button>
+    </form>
+
+    <div class="status" id="status">
+      <svg viewBox="0 0 24 24"><path d="M20 6 L9 17 L4 12"/></svg>
+      <h3>Danke!</h3>
+      <p>Eure Anmeldung ist bei uns angekommen. Wir freuen uns riesig auf den Tag mit euch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <h1><span style="color:var(--blush-deep)">Anne & Markus</span></h1>
+  <p class="small">Fragen? Schreibt uns einfach.</p>
+</footer>
+
+<script>
+/* =========================================================
+   HIER EINSETZEN: deine Web-App-URL aus Google Apps Script
+   (endet auf /exec — siehe apps-script.gs)
+   Solange leer, wird beim Absenden ein Hinweis angezeigt.
+   ========================================================= */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw79kWesJI6F16SEeIPeGEfMgJT-QVyixEQCPgdhBqgxZAE-ice45XJyc8h7nbWUPCjzg/exec";
+
+/* ---- Formular absenden ---- */
+const form = document.getElementById('rsvp-form');
+const statusBox = document.getElementById('status');
+const btn = document.getElementById('submit-btn');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  if (!document.getElementById('bouldern').checked &&
+      !document.getElementById('wanderung').checked &&
+      !document.getElementById('essen').checked) {
+    alert('Bitte wählt mindestens einen Teil des Tages aus, bei dem ihr dabei seid.');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Wird gesendet …';
+
+  const data = new URLSearchParams();
+  data.append('name', document.getElementById('name').value.trim());
+  data.append('email', document.getElementById('email').value.trim());
+  data.append('bouldern', document.getElementById('bouldern').checked ? 'ja' : 'nein');
+  data.append('wanderung', document.getElementById('wanderung').checked ? 'ja' : 'nein');
+  data.append('essen', document.getElementById('essen').checked ? 'ja' : 'nein');
+  data.append('begleitung', document.getElementById('begleitung').value);
+  data.append('kinder', (document.getElementById('kinder').value || '0').replace(/[^0-9]/g,'') || '0');
+  data.append('nachricht', document.getElementById('nachricht').value.trim());
+
+  if (!SCRIPT_URL) {
+    alert('Hinweis für den Website-Betreiber: Es ist noch keine SCRIPT_URL hinterlegt. Siehe apps-script.gs.');
+    btn.disabled = false;
+    btn.textContent = 'Anmeldung absenden';
+    return;
+  }
+
+  try {
+    // no-cors: Google Apps Script nimmt die Daten an; Antwort ist "opaque",
+    // deshalb behandeln wir das erfolgreiche Absenden optimistisch.
+    await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: data });
+    form.style.display = 'none';
+    statusBox.classList.add('show');
+    statusBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } catch (err) {
+    alert('Ups — das Absenden hat nicht geklappt. Bitte versucht es später noch einmal oder schreibt uns direkt.');
+    btn.disabled = false;
+    btn.textContent = 'Anmeldung absenden';
+  }
+});
+
+/* ---- Reveal beim Scrollen ---- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }});
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
